@@ -1,32 +1,46 @@
-import React from 'react';
+import logo from './logo.svg';
 import './App.css';
+import { Routes, Route, Link } from "react-router-dom";
+import HomePage from './pages/Home';
+import ChatsPage from './pages/Chats';
+import Chat from './components/chat/Chat';
 
 function App() {
-  const userName = 'Алексей'
-  const theme = "dark"
-  
   return (
     <div className="App">
-      <Message theme = {theme} />
-      <MessageUser name = {userName} />
+      <>
+      <NavBar/>
+      <Routes>
+          <Route path='/' element = {<HomePage userName={"Пользователь"}/>}/>
+          <Route path='chats' element = {<ChatsPage/>}>
+              <Route path=':chatId' element = {<ChatsPage/>}/>
+          </Route>
+          <Route path='*' element = {<NotFound/>}/>
+      </Routes>
+      </> 
     </div>
   );
 }
 
 export default App;
 
-const Message = ({theme}) =>{
+
+const NavBar = () => {
+
   return(
-    <div style={{background: theme === "dark" ? "#222222" : "#fff"}}>
-      <h1>Привет, Алексей</h1>
+    <div className='navBar'>
+      <Link to={'/'}>Главная</Link>
+      <Link to={'/chats'}>Чаты</Link>
+      <Link to={'/profile'}>Профиль</Link>
     </div>
   )
 }
 
-const MessageUser = ({name}) =>{
+const NotFound = () =>{
+  
   return(
-    <div>
-      <h1>Привет, {name}</h1>
+    <div style={{width:"100%", height:'100vh', display:'flex', alignItems:'center', justifyContent:'center'}}>
+      <h1>404 страница не найдена</h1>
     </div>
-  )
+    )
 }
